@@ -1,4 +1,5 @@
 # autodpi
+
 [Persian Guid](docs/README.fa.md)
 **Automatic DPI bypass strategy finder & transparent forwarder.**
 
