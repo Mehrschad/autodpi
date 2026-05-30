@@ -17,3 +17,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 - Hand-built TLS 1.2 ClientHello generator and tolerant SNI-offset parser.
 - `config.json` compatible with the SNI-Spoofing layout, plus per-listener
   `strategy` and `sni` fields.
+
+## [0.1.1] - Unreleased
+
+### Fixed
+- Forwarder now logs every accepted connection, upstream connect, and the size
+  of the first chunk (with TLS-ClientHello detection). Previously connections
+  were silent unless they errored at `debug` level, which made it impossible to
+  tell from the console whether a client was reaching the forwarder at all.
