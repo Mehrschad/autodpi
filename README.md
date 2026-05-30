@@ -9,6 +9,7 @@ catalogue of evasion strategies, ranks them, and runs a local forwarder that
 applies the winner.** Point your existing client (xray / v2ray / a browser) at
 the local listener and you are done.
 
+For Persian guid click : [Persian Guid](docs/README.fa.md)
 > Inspired by the SNI-Spoofing idea of [@patterniha](https://github.com/patterniha/SNI-Spoofing)
 > and its Rust port by [@therealaleph](https://github.com/therealaleph/sni-spoofing-rust),
 > plus the wider DPI-bypass ecosystem (GoodbyeDPI, zapret, byedpi, SpoofDPI).
