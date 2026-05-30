@@ -1,5 +1,5 @@
 # autodpi
-
+[Persian Guid](docs/README.fa.md)
 **Automatic DPI bypass strategy finder & transparent forwarder.**
 
 Most anti-censorship tools implement *one* evasion technique and leave you to
