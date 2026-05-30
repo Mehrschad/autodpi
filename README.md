@@ -2,7 +2,6 @@
 
 
 **Automatic DPI bypass strategy finder & transparent forwarder.**
-For Persian guid click : [Persian Guid](docs/README.fa.md)
 Most anti-censorship tools implement *one* evasion technique and leave you to
 hand-tune dozens of parameters until something works on your ISP. `autodpi`
 flips that around: it **probes how your network's DPI blocks a target, sweeps a
