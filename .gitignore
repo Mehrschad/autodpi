@@ -1,0 +1,13 @@
+/target
+**/*.rs.bk
+Cargo.lock.orig
+*.pdb
+
+# local user configs may contain endpoints — keep them out of git
+/config.json
+!/config.example.json
+
+# editor / OS noise
+.idea/
+.vscode/
+.DS_Store
