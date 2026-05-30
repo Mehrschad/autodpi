@@ -13,7 +13,7 @@ use std::thread;
 use std::time::Duration;
 
 use anyhow::{Context, Result};
-use log::{debug, error, info, warn};
+use log::{error, info, warn};
 
 use crate::strategy::Strategy;
 
@@ -29,12 +29,16 @@ pub fn run(listen: &str, connect: String, strategy: Arc<dyn Strategy>) -> Result
     for incoming in listener.incoming() {
         match incoming {
             Ok(client) => {
+                let peer = client
+                    .peer_addr()
+                    .map(|a| a.to_string())
+                    .unwrap_or_else(|_| "?".into());
+                info!("accepted connection from {peer}");
                 let connect = connect.clone();
                 let strategy = Arc::clone(&strategy);
-                thread::spawn(move || {
-                    if let Err(e) = handle(client, &connect, strategy) {
-                        debug!("connection closed: {e}");
-                    }
+                thread::spawn(move || match handle(client, &connect, strategy) {
+                    Ok(()) => info!("connection from {peer} finished"),
+                    Err(e) => info!("connection from {peer} closed: {e}"),
                 });
             }
             Err(e) => warn!("accept error: {e}"),
@@ -48,6 +52,7 @@ fn handle(mut client: TcpStream, connect: &str, strategy: Arc<dyn Strategy>) -> 
     let mut upstream = TcpStream::connect(connect)
         .with_context(|| format!("failed to connect upstream {connect}"))?;
     upstream.set_nodelay(true).ok();
+    info!("connected upstream {connect}");
 
     // Read the first chunk from the client (expected: the TLS ClientHello).
     client
@@ -60,6 +65,11 @@ fn handle(mut client: TcpStream, connect: &str, strategy: Arc<dyn Strategy>) -> 
     }
     first.truncate(n);
     client.set_read_timeout(None).ok();
+
+    let looks_like_tls = first.first() == Some(&0x16);
+    info!(
+        "first chunk: {n} bytes, looks like TLS ClientHello: {looks_like_tls}"
+    );
 
     // Apply the bypass technique to the very first payload.
     strategy
